@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="user-scalable=no">
+	<title>计算器</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+
+<body id="app" style="display: flex; flex-direction: column;">
+    <div class="title">总价：{{pricesList.reduce(function(r,a,i){return r+a*(isNaN(numberList[i]) ? 0 : numberList[i])},0)}}</div>
+    <div class="header item-even" style="margin-top: 30px;">
+        <div class="title-header price">单价</div>
+        <div class="title-header mount">数量</div>
+        <div class="title-header total">价钱</div>
+    </div>
+
+    <div class="input-item item-even" v-for="item in listNumber" :key="item">
+        <div style="text-align: center; line-height: 5rem; height: 5rem; color: red; font-size: 1.5rem;">{{item}}</div>
+        <input class="input" :class="{isGray: `${item}`% 2 == 0}" placeholder="输入单价" type="number" v-model="pricesList[item - 1]" />
+        <input class="input" :class="{isGray: `${item}`% 2 == 0}" placeholder="输入数量" type="number" v-model="numberList[item - 1]"/>
+        <div class="input" style="line-height: 5rem;" :class="{isGray: `${item}`% 2 == 0}" >{{ isNaN(parseFloat(pricesList[item - 1]) * parseFloat(numberList[item - 1])) ? 0 : parseFloat(pricesList[item - 1]) * parseFloat(numberList[item - 1]) }}</div>
+    </div>
+
+    <div class="item-even" style="margin-top: 30px;">
+        <button class="add btn" @click="listNumber++">加一行</button>
+        <button class="clear btn" @click="deleteLastItem">删一行</button>
+        <button class="clear btn" @click="clear">清空所有</button>
+    </div>
+
+<script>
+  const { createApp } = Vue
+  
+  createApp({
+    data() {
+      return {
+        sum: 0,
+        listNumber: 10,
+        pricesList: [],
+        numberList: [],
+      }
+    },
+    methods: {
+        deleteLastItem() {
+            if (this.listNumber > 0) {
+                this.listNumber--;
+                if (this.listNumber < this.pricesList.length) {
+                    this.pricesList.pop()
+                }
+                if (this.listNumber < this.numberList.length) {
+                    this.numberList.pop()
+                }
+            }
+        },
+        clear() {
+            this.listNumber = 0;
+            this.pricesList = []
+            this.numberList = []
+        }
+    },
+  }).mount('#app')
+</script>
+
+<style>
+    .item-even {
+        display: flex;
+         justify-content: space-evenly;
+    }
+
+    .title {
+        width: 100%;
+        font-size: 3rem;
+        text-align: center;
+    }
+
+    .title-header {
+        width: 100%;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .input {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        font-size: 2rem;
+        height: 5rem;
+        border-spacing: 0;
+        border: 0ch;
+        margin: 0;
+        padding: 0;
+    }
+
+    .price {
+        background-color: greenyellow;
+    }
+
+    .mount {
+        background-color: yellow;
+    }
+
+    .total {
+        background-color: red;
+    }
+
+    .add-btn {
+        font-size: 2rem;
+    }
+
+    .btn {
+        font-size: 2rem;
+    }
+
+    .isGray {
+        background-color: lightgray;
+        /* color: white; */
+    }
+</style>
+</body>
+</html>
