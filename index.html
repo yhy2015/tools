@@ -3,7 +3,9 @@
   <head> </head>
   <script>
     let redirName = ""
-    if (window.location.pathname == "jisuanqi") {
+    let pathname = window.location.pathname
+    console.log("pathname " + pathname)
+    if (pathname == "/site/jisuanqi") {
         redirName = "./计算器/caculate.html"
     }
     if (redirName != "") {
