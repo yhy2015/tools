@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> </head>
+  <script>
+    let redirName = ""
+    if (window.location.pathname == "jisuanqi") {
+        redirName = "./计算器/caculate.html"
+    }
+    if (redirName != "") {
+        setTimeout("javascript:location.href=" + redirName,100);
+    }
+  </script>
+</html>
